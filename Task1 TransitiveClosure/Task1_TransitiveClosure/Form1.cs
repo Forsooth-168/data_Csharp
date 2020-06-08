@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Numerics;
 
 namespace Task1_TransitiveClosure
 {
     public partial class Form1 : Form
     {
         private string file_with_graph;
-        private string folder_for_saving;
 
         public Form1()
         {
@@ -77,14 +77,114 @@ namespace Task1_TransitiveClosure
             }
         }
 
+        //Чтение матрицы из файла
+        private int[,] readMatrixFromFile(string file_name)
+        {
+            try
+            {
+                string[] matrix_lines = File.ReadAllLines(file_name);
+
+                int[,] matrix = new int[matrix_lines.Length, matrix_lines.Length];
+
+                //Заполняем матрицу
+                for (int i = 0; i < matrix_lines.Length; ++i)
+                {
+                    string[] cur_row = matrix_lines[i].Split(new char[] { ' ' });
+                    for (int j = 0; j < matrix_lines.Length; ++j)
+                    {
+                        try
+                        {
+                            matrix[i, j] = Int32.Parse(cur_row[j]);
+                        }
+                        catch (InvalidCastException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            throw;
+                        }
+                    }
+                }
+
+                return matrix;
+            }
+            catch(FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+        }
+
+        //Функция, определяющая, существует ли путь из вершины с индексом v1  в 
+        //вершину с индексом v2, исходя из матрицы смежности matrix
+        private bool wayExists(int[,] matrix, int v1, int v2)
+        { 
+            
+        }
+
+        //Построение транзитивного замыкания на основе матрицы смежности matrix
+        private int[,] buildTransititveClosure(int[,] matrix)
+        {
+            int n = (int)Math.Sqrt(matrix.Length); //Размер матрицы
+            int[,] trans_closure = new int[n, n];//Результирующая матрица
+
+            //Для каждой пары вершин выясняем, существует ли путь
+            for (int i = 0; i < n; ++i)
+                for (int j = 0; j < n; ++j)
+                    if (i == j || matrix[i, j] == 1 || wayExists(matrix, i, j))
+                        trans_closure[i, j] = 1;
+                    else
+                        trans_closure[i, j] = 0;
+
+            return trans_closure;
+
+        }
+
         private void b_save_result_Click(object sender, EventArgs e)
         {
-            //Проверка, введены ли пути и корректны ли они
-            if (tb_input_path.TextLength == 0) return;
-            if (!File.Exists(file_with_graph)) return;
-            if (!Directory.Exists(folder_for_saving)) return;
-            
-            readMatrixFromFile(file_with_graph);
+            //Проверка корректности введенного пути
+            if (tb_input_path.TextLength == 0)
+            {
+                MessageBox.Show("Enter the path to the file with graph.");
+                return;
+            }
+            if (!File.Exists(file_with_graph))
+            {
+                MessageBox.Show("Enter correct path to the file with graph.");
+                return;
+            }
+
+            //Матрица смежности графа
+            try
+            {
+                int[,] matrix = readMatrixFromFile(file_with_graph);
+
+
+                //Проверяем, содержит ли матрица что-то кроме 0 и 1
+                int n = (int)Math.Sqrt(matrix.Length); //Размер матрицы
+                for (int i = 0; i < n; ++i)
+                    for (int j = 0; j < n; ++j)
+                        if (matrix[i, j] != 0 && matrix[i, j] != 1)
+                        {
+                            MessageBox.Show("Adjacency matrix is not correct. It is impossible" +
+                                " to build transitive closure.");
+                            return;
+                        }
+
+                //Строим матрицу смежности транзитивного замыкания
+                int[,] trans_closure = buildTransititveClosure(matrix);
+
+                //Записываем транзитивное замыкание в файл
+                writeMatrixToFile(trans_closure);
+            }
+            catch(InvalidCastException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            catch(FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
         }
     }
 }
