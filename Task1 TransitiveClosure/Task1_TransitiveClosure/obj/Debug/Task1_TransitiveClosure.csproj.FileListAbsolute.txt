@@ -1,0 +1,10 @@
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\bin\Debug\Task1_TransitiveClosure.exe.config
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\bin\Debug\Task1_TransitiveClosure.exe
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\bin\Debug\Task1_TransitiveClosure.pdb
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.csprojAssemblyReference.cache
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.Form1.resources
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.Properties.Resources.resources
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.csproj.GenerateResource.cache
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.csproj.CoreCompileInputs.cache
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.exe
+C:\Users\Natal\source\repos\Task1_TransitiveClosure\obj\Debug\Task1_TransitiveClosure.pdb
